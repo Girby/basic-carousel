@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Carousel Demo</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel='icon' type='image/x-icon' href='favicon.ico' />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.5.6/plyr.css" />
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- carousel styles -->
+  <link rel="stylesheet" href="basic-carousel/basic-carousel.css">
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+    <div class="container mt-5">
+
+      <div class="alert alert-secondary" role="alert">
+        <h1 class="display-4 mt-2 mb-2">Basic Carousel</h1>
+        <p class="lead">By <a href="https://github.com/Girby" target="_blank">Girby</a></p>
+      </div>
+
+      <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+          <!-- video -->
+          <video id="demo-player" style="width: 767px;" playsinline controls autoplay loop>
+            <source src="assets/pushup.mp4" type="video/mp4" />
+          </video>
+
+          <!-- carousel -->
+          <div class="carousel-wrap" id="Howdy">
+            <div class="carousel-element" >
+                <div class="media">
+                    <img src="img/thumbnail.jpg" class="mr-3 w-25" alt="...">
+                    <div class="media-body">
+                      <h5 class="mt-0">Media heading</h5>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="https://cdn.plyr.io/3.5.6/plyr.polyfilled.js"></script>
+
+  <!-- carousel plugin -->
+  <script src="basic-carousel/basic-carousel.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
