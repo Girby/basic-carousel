@@ -10,7 +10,7 @@ html {
 .carousel-wrap{
   position: relative;
   width: 100%;
-  height: 100px;
+  height: auto;
   background: #e2e3e5;
   margin-top: 15px;
 }
@@ -263,4 +263,3 @@ textarea {
     page-break-after: avoid;
   }
 }
-

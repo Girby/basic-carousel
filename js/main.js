@@ -1,5 +1,6 @@
 var Carousel = new BasicCarousel({
-    target: 'Howdy',
+    target: 'carousel',
+    width: '500'
 });
 
 // Plyr video setup

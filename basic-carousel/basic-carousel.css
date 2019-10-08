@@ -1,4 +1,27 @@
 /* carousel styles */
 .basic-carousel-init{
-    height: auto;
+    position: relative;
+    display: block;
+}
+
+.basic-carousel-container{
+  /* todo */
+  overflow: hidden;
+}
+
+.basic-carousel-track{
+  /* todo */
+  position: relative;
+}
+
+.basic-carousel-track:after{
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.basic-carousel-block{
+    float: left;
+    height: 100%;
+    min-height: 1px;
 }
