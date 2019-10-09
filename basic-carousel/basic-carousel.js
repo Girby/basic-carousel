@@ -42,6 +42,10 @@
       setChildrenWidth(getCarouselEls(this.target), this.options.width);
       setChildClasses(getCarouselEls(this.target));
       createCarouselInnerEls(getCarouselEls(this.target), this.target);
+      setTrackWidth();
+      setPrevNextButton();
+
+      initializeEvents();
     }
 
     function extendDefaults(source, properties) {
@@ -71,6 +75,21 @@
       target.appendChild(carouselContainer);
     }
 
+    // Set the carousel track width
+    function setTrackWidth(){
+      let carouselTrack = document.querySelector('.basic-carousel-track');
+      if (carouselTrack) {
+        let carouselBlocks = document.querySelectorAll('.basic-carousel-block');
+        if (carouselBlocks.length > 0) {
+          let trackWidth = 0;
+          for (var i = 0; i < carouselBlocks.length; i++) {
+            trackWidth += carouselBlocks[i].offsetWidth;
+          }
+          carouselTrack.style.width = trackWidth + "px";
+        }
+      }
+    }
+
     // Set the carousel children class name(s)
     function setChildClasses(els){
       for (var i = 0; i < els.length; i++) {
@@ -85,6 +104,26 @@
 
       for (var i = 0; i < els.length; i++) {
         els[i].style.width = width + "px";
+      }
+    }
+
+    // needs work done --------------------------------------------------------------------
+    // add/remove prev/next button
+    function setPrevNextButton(){
+      trackEl = document.querySelector('.basic-carousel-track');
+      carouselContainer = document.querySelector('.basic-carousel-container');
+
+      if (trackEl.offsetWidth > carouselContainer.offsetWidth) {
+        let carouselInitClass = document.querySelector('.basic-carousel-init');
+
+        let beforeButton = document.createElement('button');
+        beforeButton.className = "basic-carousel-prev";
+
+        let afterButton = document.createElement('button');
+        afterButton.className = "basic-carousel-next";
+
+        carouselInitClass.insertBefore(beforeButton, carouselInitClass.firstChild);
+        carouselInitClass.appendChild(afterButton);
       }
     }
 
@@ -109,12 +148,44 @@
     // Setup events
     function initializeEvents() {
 
-      if (this.closeButton) {
-        this.closeButton.addEventListener('click', this.close.bind(this));
+      if (document.querySelector('.basic-carousel-track')) {
+        document.querySelector('.basic-carousel-track').addEventListener('mousedown', trackMouseDown, false);
+        window.addEventListener('mouseup', trackMouseUp, false);
       }
 
-      if (this.overlay) {
-        this.overlay.addEventListener('click', this.close.bind(this));
+      // When the mouse click is lifted, remove mousemove event
+      function trackMouseUp(){
+          window.removeEventListener('mousemove', trackMove, true);
+      }
+
+      // When mouse click is held down, add mousemov event
+      function trackMouseDown(e){
+        trackEl = document.querySelector('.basic-carousel-track');
+        carouselContainer = document.querySelector('.basic-carousel-container');
+        x_pos = e.clientX - trackEl.offsetLeft;
+        window.addEventListener('mousemove', trackMove, true);
+      }
+
+      // while dragging the track with the mouse click held down, move the track with the mouse
+      function trackMove(e){
+        e.preventDefault();
+
+        if (trackEl.offsetWidth > carouselContainer.offsetWidth) {
+          trackEl.style.left = (e.clientX - x_pos) + 'px';
+
+          if (trackEl.offsetLeft > 0) {
+            trackEl.style.left = 0;
+          }
+
+          if (trackEl.offsetLeft < (carouselContainer.offsetWidth - trackEl.offsetWidth)) {
+            trackEl.style.left = carouselContainer.offsetWidth - trackEl.offsetWidth + "px";
+          }
+        }
+
+      }
+
+      if (this.closeButton) {
+        this.closeButton.addEventListener('click', this.close.bind(this));
       }
 
     }
