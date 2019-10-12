@@ -10,7 +10,8 @@
       // Define option defaults
       var defaults = {
         target : this.target,
-        width: 200
+        width: 200,
+        slideAmount: null
       }
 
       // Create options by extending defaults with the passed in arugments
@@ -20,7 +21,7 @@
 
       // Check to see if the target el exists
       if(this.options.target !== null && this.options.target !== "") {
-        if(findTarget(this.options.target)){
+        if(getTarget(this.options.target)){
           buildOut.call(this);
         }else this.target = "Error";
       }else this.target = "Error";
@@ -43,9 +44,9 @@
       setChildClasses(getCarouselEls(this.target));
       createCarouselInnerEls(getCarouselEls(this.target), this.target);
       setTrackWidth();
-      setPrevNextButton();
+      setPrevNextButton(this);
 
-      initializeEvents();
+      initializeEvents(this);
     }
 
     function extendDefaults(source, properties) {
@@ -109,21 +110,55 @@
 
     // needs work done --------------------------------------------------------------------
     // add/remove prev/next button
-    function setPrevNextButton(){
+    function setPrevNextButton(carousel){
       trackEl = document.querySelector('.basic-carousel-track');
       carouselContainer = document.querySelector('.basic-carousel-container');
 
+      if (carousel.options.slideAmount !== parseInt(carousel.options.slideAmount, 10)) {
+        carousel.options.slideAmount = 15;
+      }
+
       if (trackEl.offsetWidth > carouselContainer.offsetWidth) {
-        let carouselInitClass = document.querySelector('.basic-carousel-init');
+        if (!document.querySelector('.basic-carousel-prev') || !document.querySelector('.basic-carousel-next')){
+          let carouselInitClass = document.querySelector('.basic-carousel-init');
 
-        let beforeButton = document.createElement('button');
-        beforeButton.className = "basic-carousel-prev";
+          let prevButton = document.createElement('button');
+          prevButton.className = "basic-carousel-prev";
 
-        let afterButton = document.createElement('button');
-        afterButton.className = "basic-carousel-next";
+          let nextButton = document.createElement('button');
+          nextButton.className = "basic-carousel-next";
 
-        carouselInitClass.insertBefore(beforeButton, carouselInitClass.firstChild);
-        carouselInitClass.appendChild(afterButton);
+          carouselInitClass.insertBefore(prevButton, carouselInitClass.firstChild);
+          carouselInitClass.appendChild(nextButton);
+
+          prevButton.addEventListener("click", function(){animateTrack("left")});
+
+          nextButton.addEventListener("click", function(){animateTrack("right")});
+
+          function animateTrack(direction){
+            let pixel = 0;
+            let time = setInterval(animateTrack, 10);
+
+            function animateTrack(){
+              if(pixel == carousel.options.slideAmount){
+                clearInterval(time);
+              }else{
+                pixel++;
+                if (direction == "left") {
+                  trackEl.style.left = trackEl.offsetLeft + carousel.options.slideAmount + "px";
+                }else if(direction == "right"){
+                  trackEl.style.left = trackEl.offsetLeft - carousel.options.slideAmount + "px";
+                }
+                calibrateTrack() ? clearInterval(time) : false;
+              }
+            }
+          }
+        }
+      }else{
+        if (document.querySelector('.basic-carousel-prev') || document.querySelector('.basic-carousel-next')){
+          document.querySelector('.basic-carousel-prev').parentNode.removeChild(document.querySelector('.basic-carousel-prev'));
+          document.querySelector('.basic-carousel-next').parentNode.removeChild(document.querySelector('.basic-carousel-next'));
+        }
       }
     }
 
@@ -139,34 +174,63 @@
     }
 
     // Find the target and return true if found
-    function findTarget(el){
+    function getTarget(el){
       if(document.getElementById(el)){
         return true;
       }
     }
 
-    // Setup events
-    function initializeEvents() {
+    // Calibrate the track 
+    function calibrateTrack(){
+      let trackEl = document.querySelector('.basic-carousel-track');
+      let carouselContainer = document.querySelector('.basic-carousel-container');
 
+      if (trackEl.offsetLeft > 0) {
+        trackEl.style.left = 0;
+        return true;
+      }
+
+      if (trackEl.offsetLeft < (carouselContainer.offsetWidth - trackEl.offsetWidth)) {
+        if (document.querySelector('.basic-carousel-prev') || document.querySelector('.basic-carousel-next')) {
+          trackEl.style.left = carouselContainer.offsetWidth - trackEl.offsetWidth + "px";
+        }else{
+          trackEl.style.left = 0;
+        }
+        return true;
+      }
+      
+    }
+
+    // Setup events
+    function initializeEvents(carousel) {
+
+      // On window resize recalibrate the track
+      window.addEventListener('resize', function(){
+        calibrateTrack();
+        setPrevNextButton(carousel);
+      }, false);
+
+      // Find track and add mouse events to it
       if (document.querySelector('.basic-carousel-track')) {
-        document.querySelector('.basic-carousel-track').addEventListener('mousedown', trackMouseDown, false);
+        trackEl = document.querySelector('.basic-carousel-track');
+        carouselContainer = document.querySelector('.basic-carousel-container');
+
+        trackEl.addEventListener('mousedown', trackMouseDown, false);
         window.addEventListener('mouseup', trackMouseUp, false);
       }
 
       // When the mouse click is lifted, remove mousemove event
       function trackMouseUp(){
-          window.removeEventListener('mousemove', trackMove, true);
+        window.removeEventListener('mousemove', trackMove, true);
       }
 
       // When mouse click is held down, add mousemov event
       function trackMouseDown(e){
-        trackEl = document.querySelector('.basic-carousel-track');
-        carouselContainer = document.querySelector('.basic-carousel-container');
         x_pos = e.clientX - trackEl.offsetLeft;
         window.addEventListener('mousemove', trackMove, true);
       }
 
-      // while dragging the track with the mouse click held down, move the track with the mouse
+      // While dragging the track with the mouse click held down, move the track with the mouse
       function trackMove(e){
         e.preventDefault();
 
@@ -184,6 +248,7 @@
 
       }
 
+      // Solely for reference
       if (this.closeButton) {
         this.closeButton.addEventListener('click', this.close.bind(this));
       }
