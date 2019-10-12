@@ -204,7 +204,7 @@
     // Setup events
     function initializeEvents(carousel) {
 
-      // On window resize recalibrate the track
+      // On window resize recalibrate the track, set if prev/next buttons are needed
       window.addEventListener('resize', function(){
         calibrateTrack();
         setPrevNextButton(carousel);
