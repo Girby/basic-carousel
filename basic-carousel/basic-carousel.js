@@ -108,8 +108,7 @@
       }
     }
 
-    // needs work done --------------------------------------------------------------------
-    // add/remove prev/next button
+    // Add/remove prev/next button
     function setPrevNextButton(carousel){
       trackEl = document.querySelector('.basic-carousel-track');
       carouselContainer = document.querySelector('.basic-carousel-container');
@@ -124,6 +123,7 @@
 
           let prevButton = document.createElement('button');
           prevButton.className = "basic-carousel-prev";
+          prevButton.style.opacity = 0.5;
 
           let nextButton = document.createElement('button');
           nextButton.className = "basic-carousel-next";
@@ -158,6 +158,7 @@
         if (document.querySelector('.basic-carousel-prev') || document.querySelector('.basic-carousel-next')){
           document.querySelector('.basic-carousel-prev').parentNode.removeChild(document.querySelector('.basic-carousel-prev'));
           document.querySelector('.basic-carousel-next').parentNode.removeChild(document.querySelector('.basic-carousel-next'));
+          document.querySelector('.basic-carousel-track').style.left = null;
         }
       }
     }
@@ -187,16 +188,22 @@
 
       if (trackEl.offsetLeft > 0) {
         trackEl.style.left = 0;
+        document.querySelector('.basic-carousel-prev').style.opacity = 0.5;
         return true;
-      }
+      }else document.querySelector('.basic-carousel-prev').style.opacity = 1;
 
       if (trackEl.offsetLeft < (carouselContainer.offsetWidth - trackEl.offsetWidth)) {
         if (document.querySelector('.basic-carousel-prev') || document.querySelector('.basic-carousel-next')) {
           trackEl.style.left = carouselContainer.offsetWidth - trackEl.offsetWidth + "px";
+          document.querySelector('.basic-carousel-next').style.opacity = 0.5;
         }else{
           trackEl.style.left = 0;
         }
         return true;
+      }else document.querySelector('.basic-carousel-next').style.opacity = 1;
+
+      if (trackEl.offsetLeft == 0){
+        document.querySelector('.basic-carousel-prev').style.opacity = 0.5;
       }
       
     }
@@ -239,11 +246,13 @@
 
           if (trackEl.offsetLeft > 0) {
             trackEl.style.left = 0;
-          }
+            document.querySelector('.basic-carousel-prev').style.opacity = 0.5;
+          }else document.querySelector('.basic-carousel-prev').style.opacity = 1;
 
           if (trackEl.offsetLeft < (carouselContainer.offsetWidth - trackEl.offsetWidth)) {
             trackEl.style.left = carouselContainer.offsetWidth - trackEl.offsetWidth + "px";
-          }
+            document.querySelector('.basic-carousel-next').style.opacity = 0.5;
+          }else document.querySelector('.basic-carousel-next').style.opacity = 1;
         }
 
       }
