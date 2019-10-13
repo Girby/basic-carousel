@@ -1,6 +1,6 @@
 var Carousel = new BasicCarousel({
     target: 'carousel',
-    width: '500',
+    width: 500,
     slideAmount: 15
 });
 

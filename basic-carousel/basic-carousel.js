@@ -10,7 +10,6 @@
       // Define option defaults
       var defaults = {
         target : this.target,
-        width: 200,
         slideAmount: null
       }
 
@@ -100,8 +99,9 @@
 
     // Set the width of the carousels children
     function setChildrenWidth(els, width){
-      // Remove any strings from the width var
-      width = width.replace(/\D/g,'');
+      if (width !== parseInt(width, 10)) {
+        width = 500;
+      }
 
       for (var i = 0; i < els.length; i++) {
         els[i].style.width = width + "px";
@@ -185,25 +185,31 @@
     function calibrateTrack(){
       let trackEl = document.querySelector('.basic-carousel-track');
       let carouselContainer = document.querySelector('.basic-carousel-container');
+      let prevButton = document.querySelector('.basic-carousel-prev');
+      let nextButton = document.querySelector('.basic-carousel-next');
 
       if (trackEl.offsetLeft > 0) {
         trackEl.style.left = 0;
-        document.querySelector('.basic-carousel-prev').style.opacity = 0.5;
+        if (prevButton) prevButton.style.opacity = 0.5;
         return true;
-      }else document.querySelector('.basic-carousel-prev').style.opacity = 1;
+      }else if (prevButton) prevButton.style.opacity = 1;
 
       if (trackEl.offsetLeft < (carouselContainer.offsetWidth - trackEl.offsetWidth)) {
-        if (document.querySelector('.basic-carousel-prev') || document.querySelector('.basic-carousel-next')) {
+        if (prevButton || nextButton) {
           trackEl.style.left = carouselContainer.offsetWidth - trackEl.offsetWidth + "px";
-          document.querySelector('.basic-carousel-next').style.opacity = 0.5;
+          nextButton.style.opacity = 0.5;
         }else{
           trackEl.style.left = 0;
         }
         return true;
-      }else document.querySelector('.basic-carousel-next').style.opacity = 1;
+      }else if (nextButton) nextButton.style.opacity = 1;
 
-      if (trackEl.offsetLeft == 0){
-        document.querySelector('.basic-carousel-prev').style.opacity = 0.5;
+      if (trackEl.offsetLeft == 0 && prevButton){
+        prevButton.style.opacity = 0.5;
+      }
+
+      if (trackEl.offsetLeft == (carouselContainer.offsetWidth - trackEl.offsetWidth) && nextButton){
+        nextButton.style.opacity = 0.5;
       }
       
     }
