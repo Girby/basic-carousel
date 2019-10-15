@@ -3,7 +3,7 @@
 A very simple carousel similar to slick
 
 
-# Demo
+## Demo
 
 Link demo link here
 
