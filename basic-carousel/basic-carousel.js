@@ -39,13 +39,16 @@
 
       this.target.className += " " + this.initClass;
 
-      setChildrenWidth(getCarouselEls(this.target), this.options.width);
-      setChildClasses(getCarouselEls(this.target));
-      createCarouselInnerEls(getCarouselEls(this.target), this.target);
-      setTrackWidth();
-      setPrevNextButton(this);
+      if (getCarouselEls(this.target)) {
+        setChildrenWidth(getCarouselEls(this.target), this.options.width);
+        setChildClasses(getCarouselEls(this.target));
+        createCarouselInnerEls(getCarouselEls(this.target), this.target);
+        setTrackWidth();
+        setPrevNextButton(this);
 
-      initializeEvents(this);
+        initializeEvents(this);
+      }
+
     }
 
     function extendDefaults(source, properties) {
@@ -170,7 +173,7 @@
       if (targetChildren.length > 0) {
         return targetChildren;
       }else{
-        throw new Error("cannot find carousel elements.")
+        return false;
       }
     }
 
@@ -181,7 +184,7 @@
       }
     }
 
-    // Calibrate the track 
+    // Calibrate the track
     function calibrateTrack(){
       let trackEl = document.querySelector('.basic-carousel-track');
       let carouselContainer = document.querySelector('.basic-carousel-container');
@@ -211,7 +214,7 @@
       if (trackEl.offsetLeft == (carouselContainer.offsetWidth - trackEl.offsetWidth) && nextButton){
         nextButton.style.opacity = 0.5;
       }
-      
+
     }
 
     // Setup events
@@ -223,32 +226,42 @@
         setPrevNextButton(carousel);
       }, false);
 
-      // Find track and add mouse events to it
+      // Find track and add mouse/touch events to it
       if (document.querySelector('.basic-carousel-track')) {
         trackEl = document.querySelector('.basic-carousel-track');
         carouselContainer = document.querySelector('.basic-carousel-container');
 
         trackEl.addEventListener('mousedown', trackMouseDown, false);
+        trackEl.addEventListener('touchstart', trackMouseDown, { passive: false });
         window.addEventListener('mouseup', trackMouseUp, false);
+        window.addEventListener('touchend', trackMouseUp, { passive: false });
       }
 
-      // When the mouse click is lifted, remove mousemove event
+      // When the mouse click/touch is lifted, remove mousemove/touchmove event
       function trackMouseUp(){
         window.removeEventListener('mousemove', trackMove, true);
+        window.removeEventListener('touchmove', trackMove, { passive: false });
       }
 
-      // When mouse click is held down, add mousemov event
+      // When mouse click is held down/touch, add mousemove/touchmove event
       function trackMouseDown(e){
-        x_pos = e.clientX - trackEl.offsetLeft;
+        if (e.touches) {
+          x_pos = e.touches[0].clientX - trackEl.offsetLeft;
+        }else x_pos = e.clientX - trackEl.offsetLeft;
+
         window.addEventListener('mousemove', trackMove, true);
+        window.addEventListener('touchmove', trackMove, { passive: false });
       }
 
-      // While dragging the track with the mouse click held down, move the track with the mouse
+      // While dragging the track with the mouse click held down/touch, move the track with the mouse/touch
       function trackMove(e){
         e.preventDefault();
 
         if (trackEl.offsetWidth > carouselContainer.offsetWidth) {
-          trackEl.style.left = (e.clientX - x_pos) + 'px';
+          if (e.touches) {
+            trackEl.style.left = (e.touches[0].clientX - x_pos) + 'px';
+          }else trackEl.style.left = (e.clientX - x_pos) + 'px';
+
 
           if (trackEl.offsetLeft > 0) {
             trackEl.style.left = 0;
