@@ -1,17 +1,15 @@
-/* carousel styles */
 .basic-carousel-init{
     position: relative;
     display: block;
 }
 
 .basic-carousel-container{
-  /* todo */
   overflow: hidden;
 }
 
 .basic-carousel-track{
-  /* todo */
   position: relative;
+  cursor: pointer;
 }
 
 .basic-carousel-track:after{
@@ -27,8 +25,8 @@
   width: 20px;
   background: transparent;
   border: none;
+  padding: 0;
   z-index: 999;
-  cursor: pointer;
 }
 
 .basic-carousel-prev::before, .basic-carousel-next::before{
@@ -38,8 +36,9 @@
   color: #000;
   line-height: 1;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  width: 0;
+  transform: translateY(-50%);
   opacity: .75;
 }
 
@@ -59,9 +58,9 @@
   right: -20px;
 }
 
-.basic-carousel-block{
-    float: left;
-    height: 100%;
-    min-height: 1px;
-    margin: 0;
+.basic-carousel-block {
+  height: 100%;
+  min-height: 1px;
+  margin: 0;
+  float: left;
 }
