@@ -1,6 +1,6 @@
 # Basic Carousel
 
-A very simple carousel similar to slick
+A very simple carousel similar to slick-carousel
 
 
 ## Demo
