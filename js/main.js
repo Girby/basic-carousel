@@ -4,5 +4,7 @@ var Carousel = new BasicCarousel({
     slideAmount: 15
 });
 
+Carousel.goTo(2);
+
 // Plyr video setup
 const player = new Plyr('#demo-player');

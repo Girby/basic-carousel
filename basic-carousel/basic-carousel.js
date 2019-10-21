@@ -28,8 +28,10 @@
 
     // Public Methods
 
-    BasicCarousel.prototype.open = function() {
-
+    BasicCarousel.prototype.goTo = function(e) {
+      if (getCarouselEls(this.target)) {
+        //  to do
+      }
     }
 
     // Private Methods
@@ -170,11 +172,14 @@
     function getCarouselEls(target){
       let targetChildren = target.children;
 
-      if (targetChildren.length > 0) {
-        return targetChildren;
-      }else{
-        return false;
+      if (targetChildren) {
+        if (targetChildren.length > 0) {
+          return targetChildren;
+        }else{
+          return false;
+        }
       }
+
     }
 
     // Find the target and return true if found
