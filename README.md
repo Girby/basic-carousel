@@ -20,6 +20,21 @@ Add the JS file just before the closing ```<body>```
 ```html
 <script type="text/javascript" src="basic-carousel/basic-carousel.js"></script>
 ```
+### JS
+
+Set the target as the element id e.g.
+```html
+<div class="carousel-wrap" id="carousel">
+ <div class="carousel-element"></div>
+ ...
+</div>
+```
+
+```javascript
+var Carousel = new BasicCarousel({
+    target: 'carousel'
+});
+```
 
 ## Settings
 
