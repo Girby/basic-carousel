@@ -40,6 +40,11 @@ var Carousel = new BasicCarousel({
 
 List of the current options available
 
+Option | Type | Default | Description
+------ | ---- | ------- | -----------
+width | int | 500 | Sets the width for all of the carousel elements.
+slideAmount | int| 15 | Sets how far the carousel moves when the Prev/Next buttons are clicked.
+
 ## Events
 
 List of available events
@@ -47,3 +52,11 @@ List of available events
 ## Methods
 
 List of available methods
+
+### GoTo
+
+If you would like to go to a element in the carousel, use the following method:
+```javascript
+// Where index is, change to index of the element you want to go to.
+YourElement.goTo(index);
+```
