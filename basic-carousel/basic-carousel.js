@@ -28,10 +28,17 @@
 
     // Public Methods
 
-    BasicCarousel.prototype.goTo = function(e) {
-      if (getCarouselEls(this.target)) {
-        //  to do
-      }
+    // Sliding needs animation
+    BasicCarousel.prototype.goTo = function(index) {
+      if (document.querySelector('.basic-carousel-block')) {
+        let trackEl = document.querySelector('.basic-carousel-track');
+        let blockArr = document.querySelectorAll('.basic-carousel-block');
+        index -= 1;
+
+        trackEl.style.left = 0;
+        trackEl.style.left = "-" + trackEl.offsetLeft + blockArr[index].offsetLeft + "px";
+        calibrateTrack();
+      }else return;
     }
 
     // Private Methods
