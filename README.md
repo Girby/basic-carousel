@@ -60,3 +60,9 @@ If you would like to go to a element in the carousel, use the following method:
 // Where index is, change to index of the element you want to go to.
 YourElement.goTo(index);
 ```
+### reInit
+
+Allows you to reinitialise the track:
+```javascript
+YourElement.reInit();
+```
