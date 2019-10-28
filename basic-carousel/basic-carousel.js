@@ -41,6 +41,11 @@
       }else return;
     }
 
+    // Reinitialise the track width
+    BasicCarousel.prototype.reInit = function(){
+      setTrackWidth();
+    }
+
     // Private Methods
 
     function buildOut() {
@@ -286,11 +291,6 @@
           }else document.querySelector('.basic-carousel-next').style.opacity = 1;
         }
 
-      }
-
-      // Solely for reference
-      if (this.closeButton) {
-        this.closeButton.addEventListener('click', this.close.bind(this));
       }
 
     }
