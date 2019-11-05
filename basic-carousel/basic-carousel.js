@@ -10,7 +10,8 @@
       // Define option defaults
       var defaults = {
         target : this.target,
-        slideAmount: null
+        slideAmount: null,
+        spaceBetween: null
       }
 
       // Create options by extending defaults with the passed in arugments
@@ -43,7 +44,7 @@
 
     // Reinitialise the track width
     BasicCarousel.prototype.reInit = function(){
-      setTrackWidth();
+      setTrackWidth(this.options.spaceBetween);
     }
 
     // Private Methods
@@ -54,10 +55,10 @@
       this.target.className += " " + this.initClass;
 
       if (getCarouselEls(this.target)) {
-        setChildrenWidth(getCarouselEls(this.target), this.options.width);
+        setChildrenWidth(getCarouselEls(this.target), this.options.width, this.options.spaceBetween);
         setChildClasses(getCarouselEls(this.target));
         createCarouselInnerEls(getCarouselEls(this.target), this.target);
-        setTrackWidth();
+        setTrackWidth(this.options.spaceBetween);
         setPrevNextButton(this);
 
         initializeEvents(this);
@@ -93,14 +94,16 @@
     }
 
     // Set the carousel track width
-    function setTrackWidth(){
+    function setTrackWidth(spaceBetween){
       let carouselTrack = document.querySelector('.basic-carousel-track');
       if (carouselTrack) {
         let carouselBlocks = document.querySelectorAll('.basic-carousel-block');
         if (carouselBlocks.length > 0) {
           let trackWidth = 0;
           for (var i = 0; i < carouselBlocks.length; i++) {
-            trackWidth += carouselBlocks[i].offsetWidth;
+            if (spaceBetween && i !== carouselBlocks.length-1) {
+              trackWidth += carouselBlocks[i].offsetWidth + spaceBetween;
+            }else trackWidth += carouselBlocks[i].offsetWidth;
           }
           carouselTrack.style.width = trackWidth + "px";
         }
@@ -115,13 +118,16 @@
     }
 
     // Set the width of the carousels children
-    function setChildrenWidth(els, width){
+    function setChildrenWidth(els, width, spaceBetween){
       if (width !== parseInt(width, 10)) {
         width = 500;
       }
 
       for (var i = 0; i < els.length; i++) {
         els[i].style.width = width + "px";
+        if (spaceBetween == parseInt(spaceBetween, 10) && i !== els.length-1) {
+          els[i].style.margin = "0px "+spaceBetween+"px 0px 0px";
+        }
       }
     }
 
