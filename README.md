@@ -44,6 +44,7 @@ Option | Type | Default | Description
 ------ | ---- | ------- | -----------
 width | int | 500 | Sets the width for all of the carousel elements.
 slideAmount | int| 15 | Sets how far the carousel moves when the Prev/Next buttons are clicked.
+spaceBetween | int | null | Sets spacing between carousel elements.
 
 ## Events
 
