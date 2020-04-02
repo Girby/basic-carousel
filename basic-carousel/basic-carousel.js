@@ -147,10 +147,12 @@
           let prevButton = document.createElement('button');
           prevButton.className = "basic-carousel-prev";
           prevButton.style.opacity = 0.5;
+          prevButton.innerHTML = "<div class='sr-only'>button</div>";
 
           let nextButton = document.createElement('button');
           nextButton.className = "basic-carousel-next";
-
+          nextButton.innerHTML = "<div class='sr-only'>button</div>";
+          
           carouselInitClass.insertBefore(prevButton, carouselInitClass.firstChild);
           carouselInitClass.appendChild(nextButton);
 
